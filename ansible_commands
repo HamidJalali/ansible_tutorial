@@ -1,0 +1,5 @@
+ansible all -m gather_facts
+
+ansible all -m gather_facts --limit 10.0.2.9
+
+ansible all --key-file ~/.ssh/ansible -i inventory -m ping
