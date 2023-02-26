@@ -20,3 +20,6 @@ ansible all -m apt -a "upgrade=dist" --become --ask-become-pass --limit 10.0.2.9
 
 # Running ansible playbook
 ansible-playbook --ask-become-pass install_apache.yml
+
+# List the available tags in a playbook
+ansible-playbook --list-tags site.yml
