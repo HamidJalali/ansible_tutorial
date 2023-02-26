@@ -8,15 +8,45 @@
   # This is the module name
     apt: 
       update_cache: yes
+    # ansible_distribution is a ansible built-in variable (This comes from the facts ansible is gathering! Check the facts with this ad-hoc command: e.g. ansible all -m gather_facts --limit 10.0.2.9), which can be used to determinde the os of the target machine or node
+    when: ansible_distribution == "Ubuntu"
 
   - name: install apache2 package
   # This is the module name
     apt: 
       name: apache2
       state: latest
+    # We can also check for multiple os versions/distributions at the same time, like written below. Syntax changes a little bit though 
+    when: ansible_distribution in ["Ubuntu", "Debian"]
 
   - name: add php support for apache
   # This is the module name
     apt: 
       name: libapache2-mod-php
       state: latest
+    when: ansible_distribution == "Ubuntu"
+
+
+    # ==============CentOS================
+
+  - name: update repository index
+  # This is the module name
+    dnf: 
+      update_cache: yes
+    # ansible_distribution is a ansible built-in variable (This comes from the facts ansible is gathering! Check the facts with this ad-hoc command: e.g. ansible all -m gather_facts --limit 10.0.2.9), which can be used to determinde the os of the target machine or node
+    when: ansible_distribution == "CentOS"
+
+  - name: install httpd package
+  # This is the module name
+    dnf: 
+      name: httpd
+      state: latest
+    # We can also check for multiple os versions/distributions at the same time, like written below. Syntax changes a little bit though 
+    when: ansible_distribution == "CentOS"
+
+  - name: add php support for apache
+  # This is the module name
+    dnf: 
+      name: php
+      state: latest
+    when: ansible_distribution == "CentOS"
