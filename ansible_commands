@@ -23,3 +23,9 @@ ansible-playbook --ask-become-pass install_apache.yml
 
 # List the available tags in a playbook
 ansible-playbook --list-tags site.yml
+
+# Execute playbook with one tag
+ansible-playbook --tags web_server --ask-become-pass site.yml
+
+# Execute playbook with multiple tags
+ansible-playbook --tags "web_server, db_server" --ask-become-pass site.yml
