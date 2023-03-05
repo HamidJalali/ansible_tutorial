@@ -1,0 +1,5 @@
+- name: install samba package
+  tags: file_servers
+  package:
+    name: sambda
+    state: latest
