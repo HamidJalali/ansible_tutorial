@@ -59,7 +59,35 @@
       state: latest
       update_cache: yes
     when: ansible_distribution == "CentOS"
+  
+  - name: start httpd (CentOS)
+    tags: apache, centos, httpd
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+    when: ansible_distribution == "CentOS"
 
+  - name: change e-mail address for admin
+    tags: apache,centos,httpd
+    lineinfile:
+      path: /etc/httpd/httpd.conf
+      regexp: '^ServerAdmin'
+      line: ServerAdmin somebody@somewhere.net
+    when: ansible_distribution == "CentOS"
+    # Name of what you put in register does not matter. 
+    # This will store the state of this play to the variable httpd, and in the next play, 
+    # then you can check whether the state has changed, and based whether the state has changed or not, 
+    # you can execute a play using the when condition
+    register: httpd
+
+  - name: restart httpd (CentOS)
+    tags: apache,centos,httpd
+    service:
+      name: httpd
+      state: restarted
+    when: httpd.changed
+  
   - name: copy default html file or site
     tags: apache,apache2,httpd
     copy:
